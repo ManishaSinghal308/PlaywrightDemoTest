@@ -16,7 +16,7 @@ public class DemoTest
         // Create Playwright instance
         var playwright = await Playwright.CreateAsync();
 
-        // Create Chromium browser instance with UI
+        // Launch Chromium browser instance with UI
         browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = false
@@ -29,11 +29,6 @@ public class DemoTest
         
     }
 
-    [TearDown]
-    public async Task TearDown()
-    {
-        await browser.CloseAsync();
-    }
 
     [Test]
     public async Task Create_Validate_Asset()
@@ -192,5 +187,11 @@ public class DemoTest
             Console.WriteLine("History validated!");
         }
        
+    }
+
+    [TearDown]
+    public async Task TearDown()
+    {
+        await browser.CloseAsync();
     }
 }
