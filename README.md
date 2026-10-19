@@ -1,5 +1,6 @@
+SnipeIt Demo Automation Script
 
-PlaywrightDemoTest
+Project name: PlaywrightDemoTest
 Used NUnit framework, .NET 10.0 and the latest version(v1.63.0) of Microsoft Playwright.
 
 Installation involved:
