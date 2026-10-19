@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SnipeItDemoTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6cc9792f79d62b37453a669cd368d43f759ba575")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5fd04e0f3d585ae1ade5858fa732b3181ae49a9b")]
 [assembly: System.Reflection.AssemblyProductAttribute("SnipeItDemoTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SnipeItDemoTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

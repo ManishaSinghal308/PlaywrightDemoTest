@@ -13,13 +13,18 @@ public class DemoTest
     [SetUp]
     public async Task Setup()
     {
+        // Create Playwright instance
         var playwright = await Playwright.CreateAsync();
+
+        // Create Chromium browser instance with UI
         browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = false
         });
 
+        // Create a new browser context
         context = await browser.NewContextAsync();
+        // Open a new page in the browser context
         page = await context.NewPageAsync();
         
     }
@@ -162,7 +167,7 @@ public class DemoTest
             Console.WriteLine("Asset not found!");
             return;
         }
-        
+
         //Model details validation
         if (await page.Locator($"//div[@class='col-md-12' and contains(normalize-space(), '{modelName}')]").IsVisibleAsync()) // validates model
         {
