@@ -57,17 +57,22 @@ public class DemoTest
         
        // 1. Locate the model field
         var modelSelect = page.Locator("#select2-model_select_id-container");
+        
         // 2. Click to open the dropdown
         await modelSelect.ClickAsync();
+        
         // 3. Wait for the search box
         var searchBox = page.Locator(".select2-search__field");
+        
         // 4. Type the model name
         await searchBox.FillAsync(modelName);
+        
         // 5. Select the matching option
         await page.Locator(".select2-results__option", new()
         {
             HasText = modelName
         }).ClickAsync();
+        
         // 6. Wait for dropdown to close
         await page.Locator(".select2-results__options")
                    .WaitForAsync(new() { State = WaitForSelectorState.Detached });
@@ -75,17 +80,22 @@ public class DemoTest
        
         // 1. Locate the Status field
         var statusSelect = page.Locator("#select2-status_select_id-container");
+       
         // 2. Click to open the dropdown
         await statusSelect.ClickAsync();
+       
         // 4. Wait for the status search box to appear
         var searchBoxStatus = page.Locator(".select2-search__field");
+       
         // 5. Type the status name
         await searchBox.FillAsync(status);
+       
         // 6. Select the matching option
         await page.Locator(".select2-results__option", new()
         {
             HasText = status
         }).ClickAsync();
+       
         // 7. Wait for dropdown to close
         await page.Locator(".select2-results__options")
                    .WaitForAsync(new() { State = WaitForSelectorState.Detached });
@@ -96,30 +106,38 @@ public class DemoTest
         var userRadio = page.Locator("input[name='checkout_to_type'][value='user']");
         await userRadio.WaitForAsync(new() { State = WaitForSelectorState.Visible });
         await userRadio.CheckAsync();   // Playwright auto-waits for enabled
+
         // 2. Open the dropdown
         var select2Container = page.Locator("#select2-assigned_user_select-container");
         await select2Container.WaitForAsync(new() { State = WaitForSelectorState.Visible });
         await select2Container.ClickAsync();
+
         // 3. Wait for the search box to appear
         var searchBoxUser = page.Locator(".select2-search__field");
         await searchBox.WaitForAsync(new() { State = WaitForSelectorState.Visible });
+
         // 4. Trigger loading of all users
         await searchBoxUser.FillAsync("");   // Shows full list
+
         // 5. Get all user options from the results
         var options = page.Locator(".select2-results__option");
         int count = await options.CountAsync();
         //Throw exception if no user is found
         if (count == 0)
             throw new Exception("No users found in Select2 dropdown.");
+
         // Step 6 — Pick a random user
         var random = new Random();
         int index = random.Next(count);
         string randomUser = await options.Nth(index).InnerTextAsync();
+
         // Step 7 — Select the random user
         await options.Nth(index).ClickAsync();
+        
         // Step 8 — Wait for dropdown to close
         await page.Locator(".select2-results__options")
                    .WaitForAsync(new() { State = WaitForSelectorState.Detached });
+        
         //Click on the "Save" button
         await page.ClickAsync("text=Save");
         //Wait until asset is created
@@ -134,7 +152,6 @@ public class DemoTest
         await page.WaitForTimeoutAsync(3000);
         await page.Keyboard.PressAsync("Enter"); 
         await page.WaitForTimeoutAsync(3000);
-        await page.WaitForTimeoutAsync(3000);
         if (await page.Locator($"//mark[text()='{assetTag}']").IsVisibleAsync()) //verify Asset Tag 
         {
             Console.WriteLine("Asset verified!");
@@ -145,6 +162,7 @@ public class DemoTest
             Console.WriteLine("Asset not found!");
             return;
         }
+        
         //Model details validation
         if (await page.Locator($"//div[@class='col-md-12' and contains(normalize-space(), '{modelName}')]").IsVisibleAsync()) // validates model
         {
