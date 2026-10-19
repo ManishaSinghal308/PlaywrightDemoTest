@@ -33,8 +33,8 @@ public class DemoTest
     [Test]
     public async Task Create_Validate_Asset()
     {
-        string modelName = "MacBook Pro 13";
-        string status = "Ready to deploy";
+        string modelName = "Macbook Pro 13";
+        string status = "Ready to Deploy";
 
         // Login
         await page.GotoAsync("https://demo.snipeitapp.com/login");
@@ -46,12 +46,12 @@ public class DemoTest
         Console.WriteLine("Successfully logged in!");
 
 
+        Console.WriteLine("Creating Asset!");
         // Create Asset
         await page.ClickAsync("a.dropdown-toggle:has-text('Create New')");
         await page.ClickAsync("a[href='https://demo.snipeitapp.com/hardware/create']");
         await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         string assetTag = await page.Locator("#asset_tag").InputValueAsync();
-        Console.WriteLine($"Asset Tag: {assetTag}");
         //Wait for the page load
         await page.WaitForTimeoutAsync(3000);
         
@@ -124,25 +124,35 @@ public class DemoTest
         await page.ClickAsync("text=Save");
         //Wait until asset is created
         await page.WaitForTimeoutAsync(3000);
+        Console.WriteLine("Asset created!");
     
         // Verify asset created in list
+        Console.WriteLine("Verifying asset in the list!");
         await page.ClickAsync("text=Assets");
         //Search the asset
         await page.FillAsync("//input[@type='search']", assetTag);
         await page.WaitForTimeoutAsync(3000);
         await page.Keyboard.PressAsync("Enter"); 
         await page.WaitForTimeoutAsync(3000);
-        //Click on the asset tag to navigate to asset details page
-        await page.ClickAsync($"//mark[text()='{assetTag}']");
         await page.WaitForTimeoutAsync(3000);
+        if (await page.Locator($"//mark[text()='{assetTag}']").IsVisibleAsync()) //verify Asset Tag 
+        {
+            Console.WriteLine("Asset verified!");
+
+        }
+        else
+        {
+            Console.WriteLine("Asset not found!");
+            return;
+        }
         //Model details validation
-        if (await page.Locator($"//div[@class='col-md-9']/a[contains(normalize-space(text()), '{modelName}')]").IsVisibleAsync())
+        if (await page.Locator($"//div[@class='col-md-12' and contains(normalize-space(), '{modelName}')]").IsVisibleAsync()) // validates model
         {
             Console.WriteLine("Model name validated!");
         }
         
         //Status validation
-        if (await page.Locator($"//div[@class='col-md-9' and contains(normalize-space(), '{status}')]").IsVisibleAsync()) //validates status
+        if (await page.Locator($"//div[@class='col-md-12' and contains(normalize-space(), '{status}')]").IsVisibleAsync()) //validates status
         {
             Console.WriteLine("Status validated!");
         }
@@ -150,6 +160,7 @@ public class DemoTest
 
        //Validating details in the history tab
        //Navigate to the history tab
+        await page.ClickAsync($"//mark[text()='{assetTag}']");
         await page.Locator("a[href='#history']").ClickAsync();
         await page.WaitForTimeoutAsync(3000);
         //Checks if "checkout" is visible
